@@ -12,6 +12,7 @@ class CircularReveal extends StatelessWidget {
   final Widget? child;
   final double? minRadius;
   final double? maxRadius;
+
   const CircularReveal({
     Key? key,
     this.fraction = 1.0,
