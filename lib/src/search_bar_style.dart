@@ -19,7 +19,6 @@ class FloatingSearchBarStyle {
   final double? openMaxWidth;
   final double axisAlignment;
   final double openAxisAlignment;
-
   const FloatingSearchBarStyle({
     required this.backgroundColor,
     required this.shadowColor,
@@ -116,7 +115,6 @@ class FloatingSearchAppBarStyle {
   final double liftOnScrollElevation;
   final TextStyle? hintStyle;
   final TextStyle? queryStyle;
-
   const FloatingSearchAppBarStyle({
     required this.accentColor,
     required this.backgroundColor,

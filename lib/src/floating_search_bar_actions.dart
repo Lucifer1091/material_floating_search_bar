@@ -221,9 +221,8 @@ class FloatingSearchActionBar extends StatelessWidget {
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) => IconTheme(
-        data: iconTheme ?? Theme.of(context).iconTheme.copyWith(shadows: []),
+        data: iconTheme ?? Theme.of(context).iconTheme,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: _mapActions(),
         ),
       ),

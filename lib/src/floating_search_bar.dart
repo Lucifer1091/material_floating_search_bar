@@ -141,7 +141,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// the `FloatingSearchBar` was closed.
   ///
   /// When not specified, defaults to `true`.
-  /// {@end template}
+  /// {@endtemplate}
   final bool clearQueryOnClose;
 
   /// {@template floating_search_bar.automaticallyImplyDrawerHamburger}
@@ -150,7 +150,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// tree.
   ///
   /// When not specified, defaults to `true`.
-  /// {@end template}
+  /// {@endtemplate}
   final bool automaticallyImplyDrawerHamburger;
 
   /// {@template floating_search_bar.automaticallyImplyBackButton}
@@ -158,7 +158,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// can be popped.
   ///
   /// When not specified, defaults to `true`.
-  /// {@end template}
+  /// {@endtemplate}
   final bool automaticallyImplyBackButton;
 
   /// Whether the `FloatingSearchBar` should be closed when
@@ -177,19 +177,19 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// show an undetermined [LinearProgressIndicator].
   ///
   /// When `null` or `false`, will hide the [LinearProgressIndicator].
-  /// {@end template}
+  /// {@endtemplate}
   final dynamic progress;
 
   /// {@template floating_search_bar.transitionDuration}
   /// The duration of the animation between opened and closed
   /// state.
-  /// {@end template}
+  /// {@endtemplate}
   final Duration transitionDuration;
 
   /// {@template floating_search_bar.transitionCurve}
   /// The curve for the animation between opened and closed
   /// state.
-  /// {@end template}
+  /// {@endtemplate}
   final Curve transitionCurve;
 
   /// {@template floating_search_bar.debounceDelay}
@@ -199,18 +199,18 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// This is useful for example if you want to avoid doing
   /// expensive tasks, such as making a network call, for every
   /// single character.
-  /// {@end template}
+  /// {@endtemplate}
   final Duration debounceDelay;
 
   /// {@template floating_search_bar.title}
   /// A widget that is shown in place of the [TextField] when the
   /// `FloatingSearchBar` is closed.
-  /// {@end template}
+  /// {@endtemplate}
   final Widget? title;
 
   /// {@template floating_search_bar.hint}
   /// The text value of the hint of the [TextField].
-  /// {@end template}
+  /// {@endtemplate}
   final String? hint;
 
   /// {@template floating_search_bar.actions}
@@ -221,7 +221,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   ///
   /// In LTR languages, they will be displayed to the left of
   /// the [TextField].
-  /// {@end template}
+  /// {@endtemplate}
   final List<Widget>? actions;
 
   /// {@template floating_search_bar.leadingActions}
@@ -232,7 +232,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   ///
   /// In LTR languages, they will be displayed to the right of
   /// the [TextField].
-  /// {@end template}
+  /// {@endtemplate}
   final List<Widget>? leadingActions;
 
   /// {@template floating_search_bar.onQueryChanged}
@@ -242,19 +242,19 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// See also:
   ///   * [debounceDelay] to delay the invocation of the callback
   ///   until the user stopped typing.
-  /// {@end template}
+  /// {@endtemplate}
   final OnQueryChangedCallback? onQueryChanged;
 
   /// {@template floating_search_bar.onSubmitted}
   /// A callback that gets invoked when the user submitted
   /// their query (e.g. hit the search button).
-  /// {@end template}
+  /// {@endtemplate}
   final OnQueryChangedCallback? onSubmitted;
 
   /// {@template floating_search_bar.onFocusChanged}
   /// A callback that gets invoked when the `FloatingSearchBar`
   /// receives or looses focus.
-  /// {@end template}
+  /// {@endtemplate}
   final OnFocusChangedCallback? onFocusChanged;
 
   /// The transition to be used for animating between closed
@@ -282,26 +282,32 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// {@template floating_search_bar.controller}
   /// The controller for this `FloatingSearchBar` which can be used
   /// to programmatically open, close, show or hide the `FloatingSearchBar`.
-  /// {@end template}
+  /// {@endtemplate}
   final FloatingSearchBarController? controller;
 
   /// {@template floating_search_bar.textInputAction}
   /// The [TextInputAction] to be used by the [TextField]
   /// of this `FloatingSearchBar`.
-  /// {@end template}
+  /// {@endtemplate}
   final TextInputAction textInputAction;
 
   /// {@template floating_search_bar.textInputType}
   /// The [TextInputType] of the [TextField]
   /// of this `FloatingSearchBar`.
-  /// {@end template}
+  /// {@endtemplate}
   final TextInputType textInputType;
 
   /// {@template floating_search_bar.autocorrect}
   /// Enable or disable autocorrection of the [TextField] of
   /// this `FloatingSearchBar`.
-  /// {@end template}
+  /// {@endtemplate}
   final bool autocorrect;
+
+  /// {@template floating_search_bar.toolbarOptions}
+  /// The [contextMenuBuilder] of the [TextField] of
+  /// this `FloatingSearchBar`.
+  /// {@endtemplate}
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
 
   /// Hides the `FloatingSearchBar` initially for the specified
   /// duration and then translates it from the top to its position.
@@ -338,6 +344,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
   /// The [EdgeInsets] of the [SingleChildScrollView] holding the expandable body of
   /// this `FloatingSearchBar`.
   final EdgeInsets scrollPadding;
+
   const FloatingSearchBar({
     Key? key,
     Duration implicitDuration = const Duration(milliseconds: 600),
@@ -382,6 +389,7 @@ class FloatingSearchBar extends ImplicitlyAnimatedWidget {
     this.textInputAction = TextInputAction.search,
     this.textInputType = TextInputType.text,
     this.autocorrect = true,
+    this.contextMenuBuilder,
     Duration? showAfter,
     this.isScrollControlled = false,
     this.physics,
@@ -613,7 +621,9 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
         fit: StackFit.expand,
         children: [
           body,
-          RepaintBoundary(child: searchBar),
+          RepaintBoundary(
+            child: searchBar,
+          ),
         ],
       );
     } else {
@@ -651,10 +661,6 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       child: Padding(
         padding: transition.lerpMargin(),
         child: AnimatedBuilder(
-          animation: CurvedAnimation(
-            parent: _translateAnimation,
-            curve: const Interval(0.95, 1.0),
-          ),
           child: Container(
             width: transition.lerpWidth(),
             height: transition.lerpHeight(),
@@ -669,6 +675,10 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
               borderRadius: borderRadius,
               child: _buildInnerBar(),
             ),
+          ),
+          animation: CurvedAnimation(
+            parent: _translateAnimation,
+            curve: const Interval(0.95, 1.0),
           ),
           builder: (context, child) => Material(
             elevation: transition.lerpElevation() *
@@ -689,14 +699,20 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       child: container,
     );
 
-    return transition.isBodyInsideSearchBar
-        ? bar
-        : Column(
-            children: <Widget>[
-              bar,
-              Expanded(child: _buildBody()),
-            ],
-          );
+    return AnimatedAlign(
+      duration: isAnimating ? duration : Duration.zero,
+      curve: widget.transitionCurve,
+      alignment: Alignment(
+          isOpen ? style.openAxisAlignment : style.axisAlignment, -1.0),
+      child: transition.isBodyInsideSearchBar
+          ? bar
+          : Column(
+              children: <Widget>[
+                bar,
+                Expanded(child: _buildBody()),
+              ],
+            ),
+    );
   }
 
   Widget _buildInnerBar() {
@@ -727,6 +743,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       automaticallyImplyDrawerHamburger:
           widget.automaticallyImplyDrawerHamburger,
       automaticallyImplyBackButton: widget.automaticallyImplyBackButton,
+      contextMenuBuilder: widget.contextMenuBuilder,
       transitionDuration: widget.transitionDuration,
       transitionCurve: widget.transitionCurve,
       textInputAction: widget.textInputAction,
@@ -761,8 +778,8 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
             shadowColor: style.shadowColor,
             child: Container(
               height: style.height,
-              alignment: Alignment.topCenter,
               color: transition.lerpBackgroundColor(),
+              alignment: Alignment.topCenter,
               child: Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
@@ -861,11 +878,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       borderRadius: widget.borderRadius ?? BorderRadius.circular(4),
       margins: (widget.margins ??
               EdgeInsets.fromLTRB(
-                8,
-                MediaQuery.of(context).viewPadding.top + 6,
-                8,
-                0,
-              ))
+                  8, MediaQuery.of(context).viewPadding.top + 6, 8, 0))
           .resolve(direction),
       padding: widget.padding?.resolve(direction) ?? EdgeInsets.zero,
       insets: widget.insets?.resolve(direction) ?? EdgeInsets.zero,

@@ -34,7 +34,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
   /// The shadow color for the elevation
   final Color? shadowColor;
 
-  /// Can be used to override the `IconThemeDatas` color
+  /// Can be used to override the `IconThemeData's` color
   final Color? iconColor;
 
   /// The padding of the bar
@@ -137,6 +137,9 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
   /// {@macro floating_search_bar.autocorrect}
   final bool autocorrect;
 
+  /// {@macro floating_search_bar.toolbarOptions}
+  final Widget Function(BuildContext, EditableTextState)? contextMenuBuilder;
+
   final ValueChanged<KeyEvent>? onKeyEvent;
   const FloatingSearchAppBar({
     Key? key,
@@ -178,6 +181,7 @@ class FloatingSearchAppBar extends ImplicitlyAnimatedWidget {
     this.textInputAction = TextInputAction.search,
     this.textInputType = TextInputType.text,
     this.autocorrect = true,
+    this.contextMenuBuilder,
     this.onKeyEvent,
   })  : assert(progress == null || (progress is num || progress is bool)),
         super(key, implicitDuration, implicitCurve);
@@ -294,7 +298,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         focus();
       }();
     } else {
-      unfocus();
+      unFocus();
 
       if (!widget.alwaysOpened) {
         controller.reverse();
@@ -313,7 +317,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
   }
 
   bool get hasFocus => _input.hasFocus;
-  set hasFocus(bool value) => value ? focus() : unfocus();
+  set hasFocus(bool value) => value ? focus() : unFocus();
 
   String get query => _input.text;
   set query(String value) => _input.text = value;
@@ -360,7 +364,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
     _input.requestFocus();
   }
 
-  void unfocus() {
+  void unFocus() {
     _wasUnfocusedOnScroll = false;
     _input.clearFocus();
   }
@@ -435,7 +439,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
           if (widget.hideKeyboardOnDownScroll) {
             final isDown = pixels > prevPixels;
             if (isDown && hasFocus) {
-              unfocus();
+              unFocus();
               _wasUnfocusedOnScroll = true;
             } else if (pixels <= 1.0 && _wasUnfocusedOnScroll && !hasFocus) {
               focus();
@@ -598,6 +602,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
             maxLines: 1,
             autofocus: false,
             autocorrect: widget.autocorrect,
+            contextMenuBuilder: widget.contextMenuBuilder,
             cursorColor: style.accentColor,
             style: style.queryStyle,
             textInputAction: widget.textInputAction,
@@ -627,7 +632,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).appBarTheme.toolbarTextStyle ??
-                Theme.of(context).textTheme.titleLarge ??
+                Theme.of(context).textTheme.headline6 ??
                 const TextStyle(),
             child: input,
           );
@@ -637,9 +642,9 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         final textTheme = theme.textTheme;
 
         final textStyle = hasQuery
-            ? style.queryStyle ?? textTheme.titleMedium
+            ? style.queryStyle ?? textTheme.subtitle1
             : style.hintStyle ??
-                textTheme.titleMedium?.copyWith(color: theme.hintColor);
+                textTheme.subtitle1?.copyWith(color: theme.hintColor);
 
         input = Text(
           hasQuery ? query : widget.hint ?? '',
