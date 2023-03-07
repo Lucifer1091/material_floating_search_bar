@@ -108,7 +108,7 @@ class _HomeState extends State<Home> {
         automaticallyImplyBackButton: false,
         controller: controller,
         clearQueryOnClose: true,
-        hint: 'חיפוש...',
+        hint: 'Search here',
         iconColor: Colors.grey,
         transitionDuration: const Duration(milliseconds: 800),
         transitionCurve: Curves.easeInOutCubic,
@@ -129,6 +129,7 @@ class _HomeState extends State<Home> {
         scrollPadding: const EdgeInsets.symmetric(vertical: 16),
         transition: CircularFloatingSearchBarTransition(
           spacing: 16,
+          showBottomRadius: true,
           divider: const SizedBox.shrink(),
         ),
         builder: (context, _) => buildExpandableBody(model),

@@ -18,7 +18,9 @@ part 'floating_search_app_bar.dart';
 // ignore_for_file: public_member_api_docs
 
 typedef FloatingSearchBarBuilder = Widget Function(
-    BuildContext context, Animation<double> transition);
+  BuildContext context,
+  Animation<double> transition,
+);
 
 /// An expandable material floating search bar with customizable
 /// transitions similar to the ones used extensively
@@ -621,9 +623,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
         fit: StackFit.expand,
         children: [
           body,
-          RepaintBoundary(
-            child: searchBar,
-          ),
+          RepaintBoundary(child: searchBar),
         ],
       );
     } else {
@@ -681,6 +681,7 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
             curve: const Interval(0.95, 1.0),
           ),
           builder: (context, child) => Material(
+            color: transition.lerpBackgroundColor(),
             elevation: transition.lerpElevation() *
                 (1.0 - interval(0.95, 1.0, _translateAnimation.value)),
             shadowColor: style.shadowColor,
@@ -703,7 +704,9 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       duration: isAnimating ? duration : Duration.zero,
       curve: widget.transitionCurve,
       alignment: Alignment(
-          isOpen ? style.openAxisAlignment : style.axisAlignment, -1.0),
+        isOpen ? style.openAxisAlignment : style.axisAlignment,
+        -1.0,
+      ),
       child: transition.isBodyInsideSearchBar
           ? bar
           : Column(
@@ -776,6 +779,8 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
           Material(
             elevation: transition.lerpInnerElevation(),
             shadowColor: style.shadowColor,
+            color: Colors.transparent,
+            type: MaterialType.transparency,
             child: Container(
               height: style.height,
               color: transition.lerpBackgroundColor(),
@@ -878,7 +883,11 @@ class FloatingSearchBarState extends ImplicitlyAnimatedWidgetState<
       borderRadius: widget.borderRadius ?? BorderRadius.circular(4),
       margins: (widget.margins ??
               EdgeInsets.fromLTRB(
-                  8, MediaQuery.of(context).viewPadding.top + 6, 8, 0))
+                8,
+                MediaQuery.of(context).viewPadding.top + 6,
+                8,
+                0,
+              ))
           .resolve(direction),
       padding: widget.padding?.resolve(direction) ?? EdgeInsets.zero,
       insets: widget.insets?.resolve(direction) ?? EdgeInsets.zero,

@@ -160,10 +160,7 @@ class ExpandingFloatingSearchBarTransition extends FloatingSearchBarTransition {
       child: divider ??
           const Opacity(
             opacity: 0.75,
-            child: Divider(
-              height: 0,
-              thickness: 1,
-            ),
+            child: Divider(height: 0, thickness: 1),
           ),
     );
   }
@@ -177,9 +174,9 @@ abstract class OverlayingFloatingSearchBarTransition
   /// The vertical spacing between the bar of the [FloatingSearchBar] and its body.
   final double? _spacing;
 
-  /// A divider to seperate the body of the [FloatingSearchBar] from the bar.
+  /// A divider to separate the body of the [FloatingSearchBar] from the bar.
   ///
-  /// Typically this gets revealed when the body has scrolled the amount specifieds
+  /// Typically this gets revealed when the body has scrolled the amount specified
   /// by [spacing].
   final Widget? divider;
 
