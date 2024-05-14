@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
 
   int _index = 0;
   int get index => _index;
+
   set index(int value) {
     _index = min(value, 2);
     _index == 2 ? controller.hide() : controller.show();
