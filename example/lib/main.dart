@@ -107,6 +107,7 @@ class _HomeState extends State<Home> {
       builder: (context, model, _) => FloatingSearchBar(
         automaticallyImplyBackButton: false,
         controller: controller,
+        backgroundColor: Colors.transparent,
         clearQueryOnClose: true,
         hint: 'Search here',
         iconColor: Colors.grey,
@@ -339,10 +340,13 @@ class Map extends StatelessWidget {
   }
 
   Widget buildMap() {
-    return Image.asset(
-      'assets/map.jpg',
-      fit: BoxFit.cover,
+    return Container(
+      color: Colors.red,
     );
+    // return Image.asset(
+    //   'assets/map.jpg',
+    //   fit: BoxFit.cover,
+    // );
   }
 }
 
