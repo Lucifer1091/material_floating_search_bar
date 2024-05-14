@@ -257,7 +257,7 @@ class _HomeState extends State<Home> {
       selectedFontSize: 11.5,
       unselectedFontSize: 11.5,
       unselectedItemColor: const Color(0xFF4d4d4d),
-      items: const [
+      items: [
         BottomNavigationBarItem(
           icon: Icon(MdiIcons.homeVariantOutline),
           label: 'Explore',

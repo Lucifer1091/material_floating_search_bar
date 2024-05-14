@@ -632,7 +632,7 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: Theme.of(context).appBarTheme.toolbarTextStyle ??
-                Theme.of(context).textTheme.headline6 ??
+                Theme.of(context).textTheme.titleLarge ??
                 const TextStyle(),
             child: input,
           );
@@ -642,9 +642,9 @@ class FloatingSearchAppBarState extends ImplicitlyAnimatedWidgetState<
         final textTheme = theme.textTheme;
 
         final textStyle = hasQuery
-            ? style.queryStyle ?? textTheme.subtitle1
+            ? style.queryStyle ?? textTheme.titleMedium
             : style.hintStyle ??
-                textTheme.subtitle1?.copyWith(color: theme.hintColor);
+                textTheme.titleMedium?.copyWith(color: theme.hintColor);
 
         input = Text(
           hasQuery ? query : widget.hint ?? '',
